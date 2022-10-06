@@ -18,7 +18,7 @@ AUDIO_DURATION_IN_BYTES = 2**18
 AUDIO_DURATION = 5.4613333 # assuming SAMPLERATE=48000 we have AUDIO_DURATION * SAMPLERATE=2**18
 
 class LyricsOnly(Dataset):
-    def __init__(self, ds_path, audio_segment_dir=None, audio_duration=AUDIO_DURATION, ignore_empty=True, split_audio=True, save_songs=True, save_pre_fourier=True, save_fourier=True, rgb_grouping=True, save_collapsed=True):
+    def __init__(self, ds_path, audio_segment_dir=None, audio_duration=AUDIO_DURATION_IN_BYTES, ignore_empty=True, split_audio=True, save_songs=True, save_pre_fourier=True, save_fourier=True, rgb_grouping=True, save_collapsed=True):
         self.ds_path = ds_path
         self.audio_duration = audio_duration
         self.ignore_empty = ignore_empty
@@ -92,7 +92,7 @@ class LyricsOnly(Dataset):
                                 os.makedirs(processed_section_dir)
 
                             section_start = floor(floor(t_start * samplerate))
-                            section_end = section_start + AUDIO_DURATION_IN_BYTES
+                            section_end = section_start + self.audio_duration
 
                             audio_section = audio[section_start:section_end]
                             collapsed_audio_section = np.mean(audio_section, axis=1, dtype = np.int16)  # collapsing L/R to mono
