@@ -1,0 +1,2 @@
+#ignore audio segments directory
+/datasets/audio_segements/*
